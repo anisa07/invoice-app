@@ -1,0 +1,96 @@
+{
+  "invoices": [
+    {
+      "id": "5e236536-aa6a-46ee-bda2-1880e46bb58d",
+      "ticketNumber": "RT3080",
+      "billFrom": {
+        "streetAddress": "19 Union Terrace",
+        "city": "London",
+        "postCode": "E13EC",
+        "country": "United Kingdom"
+      },
+      "billTo": {
+        "clientName": "Alex Grim",
+        "clientEmail": "alexgrim@mail.com",
+        "address": {
+          "streetAddress": "84 Church Way",
+          "city": "Bradford",
+          "postCode": "BD19PB",
+          "country": "United Kingdom"
+        }
+      },
+      "invoiceDate": 1625090400000,
+      "paymentTerms": "net30",
+      "projectDescription": "Graphic Design",
+      "itemList": [
+        {
+          "itemName": "Banner Design",
+          "quantity": 1,
+          "price": 156.00
+        },
+        {
+          "itemName": "Email Design",
+          "quantity": 2,
+          "price": 200.00
+        }
+      ],
+      "status": "paid"
+    },
+    {
+      "id": "08820217-31b4-4b81-b0ed-4cb686141eb1",
+      "ticketNumber": "KL4567",
+      "billFrom": {
+        "streetAddress": "21 Sun Day",
+        "city": "Paris",
+        "postCode": "N127KT",
+        "country": "France"
+      },
+      "billTo": {
+        "clientName": "Anna Stem",
+        "clientEmail": "annastem@mail.com",
+        "address": {
+          "streetAddress": "127 Long Street",
+          "city": "Bordeaux",
+          "postCode": "NP56GT",
+          "country": "France"
+        }
+      },
+      "invoiceDate": 1646070400000,
+      "paymentTerms": "net10",
+      "projectDescription": "Interior Design",
+      "itemList": [],
+      "status": "draft"
+    },
+    {
+      "id": "c61f2183-9bf1-4d26-ace5-1a81f729c446",
+      "ticketNumber": "NM8972",
+      "billFrom": {
+        "streetAddress": "21 Union Street",
+        "city": "New York",
+        "postCode": "TP45NM",
+        "country": "USA"
+      },
+      "billTo": {
+        "clientName": "Alice Fox",
+        "clientEmail": "alicefox@mail.com",
+        "address": {
+          "streetAddress": "90 Forest Road",
+          "city": "Sunny Alley",
+          "postCode": "YT71ND",
+          "country": "USA"
+        }
+      },
+      "invoiceDate": 1646090400000,
+      "paymentTerms": "net1",
+      "projectDescription": "Web Design",
+      "itemList": [
+        {
+          "itemName": "Web Shop",
+          "quantity": 3,
+          "price": 100.00
+        }
+      ],
+      "status": "pending"
+    }
+  ]
+}

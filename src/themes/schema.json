@@ -1,0 +1,46 @@
+{
+  "data" : {
+    "dark" : {
+      "name": "dark",
+      "colors": {
+        "background": "#141626",
+        "text": "#F7F9FF",
+        "pendingLabel": {
+          "text": "#F7F9FF",
+          "background": "#F7F9FF11"
+        },
+        "label": {
+          "text": "#F7F9FF"
+        },
+        "item": {
+          "background": "#1F203A"
+        },
+        "editButton": {
+          "text": "#F7F9FF",
+          "background": "#F7F9FF11"
+        }
+      }
+    },
+    "light" : {
+      "name": "light",
+      "colors": {
+        "background": "#F8F8FC",
+        "text": "#1F203A",
+        "pendingLabel": {
+          "text": "#38363F",
+          "background": "#38363F11"
+        },
+        "label": {
+          "text": "#C8C7CD"
+        },
+        "item": {
+          "background": "#FFF"
+        },
+        "editButton": {
+          "text": "#38363F",
+          "background": "#38363F11"
+        }
+      }
+    }
+  }
+}
