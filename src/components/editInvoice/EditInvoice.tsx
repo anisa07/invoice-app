@@ -1,9 +1,10 @@
 import { EditInvoiceButton } from "./editInvoiceStyle"
 import {tabletBreakpoint} from "../../themes/styleConst";
-import useWindowDimensions from "../../hooks/useScreenDimensions";
+import {useContext} from "react";
+import {Context} from "../../context/context";
 
 export const EditInvoice = () => {
-    const windowDimensions = useWindowDimensions();
+    const { windowDimensions } = useContext(Context);
 
     const editInvoiceText = () => windowDimensions.width <= tabletBreakpoint ? 'Edit' : 'Edit Invoice'
 

@@ -3,12 +3,13 @@ import React, {useEffect, useState} from "react";
 import {fetchInvoiceById} from "../../services/invoiceService";
 import {InvoiceEntity, StatusEnum} from "../../types/InvoiceEntity";
 import {InvoiceDetailsHeader} from "./invoiceDetailsHeader/InvoiceDetailsHeader";
-import { InvoiceDetailsStyled } from "./invoiceDetailsStyle";
+import {InvoiceDetailsStyled} from "./invoiceDetailsStyle";
+import {InvoiceInfo} from "./invoiceInfo/InvoiceInfo";
 
 export const InvoiceDetails = () => {
     const {id: invoiceId} = useParams();
     const [invoice, setInvoice] = useState<InvoiceEntity>();
-    const [markStatus, setMarkStatus] = useState<StatusEnum>(StatusEnum.PENDING);
+    const [markStatus, setMarkStatus] = useState<StatusEnum|undefined>(StatusEnum.PENDING);
 
     useEffect(() => {
         if (invoiceId) {
@@ -23,11 +24,11 @@ export const InvoiceDetails = () => {
         if (invoice) {
             invoice.status === StatusEnum.PENDING
                 ? setMarkStatus(StatusEnum.PAID) : invoice.status === StatusEnum.PAID
-                ? setMarkStatus(StatusEnum.DRAFT) : setMarkStatus(StatusEnum.PENDING)
+                ? setMarkStatus(undefined) : setMarkStatus(StatusEnum.PENDING)
         }
     }, [invoice])
 
-    if(!invoice)
+    if (!invoice)
         return <div>Loading...</div>
 
     return <InvoiceDetailsStyled>
@@ -36,5 +37,6 @@ export const InvoiceDetails = () => {
             markStatus={markStatus}
             status={invoice.status}
         />
+        <InvoiceInfo item={invoice}/>
     </InvoiceDetailsStyled>
 }

@@ -9,7 +9,8 @@ export interface AddressEntity {
 export interface ItemEntity {
     itemName: string,
     quantity: number,
-    price: number
+    price: number,
+    id: string
 }
 
 export enum StatusEnum {
@@ -31,5 +32,9 @@ export interface InvoiceEntity {
     paymentTerms: string,
     projectDescription: string,
     itemList: ItemEntity[],
-    status: StatusEnum
+    status: StatusEnum,
+}
+
+export interface InvoiceEntityProps {
+    item: InvoiceEntity
 }

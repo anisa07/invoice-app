@@ -35,3 +35,7 @@ export const deleteButtonBackground = red;
 export const deleteButtonColor = "#FFF";
 export const markButtonBackground = violet1;
 export const markButtonColor = "#FFF";
+export const detailListBackground = "rgba(200,199,205,0.1)"
+export const totalPriceBackground = black;
+export const totalPriceColor = "#FFF";
+export const popupContainerBackground = "#00000055"

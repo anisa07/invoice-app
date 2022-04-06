@@ -1,17 +1,22 @@
 import { StyledCreateInvoice } from "./createInvoiceStyle"
-import useWindowDimensions from "../../hooks/useScreenDimensions";
-import {mobileBreakpoint, tabletBreakpoint} from "../../themes/styleConst";
+import {tabletBreakpoint} from "../../themes/styleConst";
 import plus from './png/plus.png';
+import {Context} from "../../context/context";
+import {useContext} from "react";
 
-export const CreateInvoice = () => {
-    const windowDimensions = useWindowDimensions();
+export interface CreateInvoiceProps {
+    onClick: () => void;
+}
+
+export const CreateInvoice = (props: CreateInvoiceProps) => {
+    const { windowDimensions } = useContext(Context);
 
     const createInvoiceText = () => windowDimensions.width <= tabletBreakpoint ? 'New' : 'New Invoice'
 
     return (
         <StyledCreateInvoice>
-            <button>
-                <img src={plus} />
+            <button onClick={props.onClick}>
+                <img src={plus}  alt="add-icon"/>
                 {createInvoiceText()}
             </button>
         </StyledCreateInvoice>

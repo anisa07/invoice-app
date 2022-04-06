@@ -1,11 +1,7 @@
 import {createGlobalStyle} from "styled-components";
 import {StatusEnum} from "./types/InvoiceEntity";
 import {paidLabel, paidLabelBackground, pendingLabel, pendingLabelBackground} from "./themes/styleConst";
-
-export interface ThemeType {
-    // Todo fix types
-    [key: string]: any
-}
+import {ThemeType} from "./types/themeTypes";
 
 export const getLabelColor = (theme: ThemeType, status: StatusEnum) =>
     status === StatusEnum.DRAFT
@@ -49,6 +45,7 @@ const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
   #root {
     margin: 0 auto;
     height: 100%;
+    width: 100%;
   }
 `
 

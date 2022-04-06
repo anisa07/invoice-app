@@ -1,9 +1,10 @@
 import {DeleteInvoiceButton} from "./deleteInvoiceStyle"
-import useWindowDimensions from "../../hooks/useScreenDimensions";
 import {tabletBreakpoint} from "../../themes/styleConst";
+import {useContext} from "react";
+import {Context} from "../../context/context";
 
 export const DeleteInvoice = () => {
-    const windowDimensions = useWindowDimensions();
+    const { windowDimensions } = useContext(Context);
 
     const deleteInvoiceText = () => windowDimensions.width <= tabletBreakpoint ? 'Delete' : 'Delete Invoice'
 

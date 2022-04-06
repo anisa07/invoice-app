@@ -3,7 +3,7 @@ import {desktopBreakpoint, headerBackground} from "../../themes/styleConst";
 
 export const HeaderContainer = styled.header`
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 65px;

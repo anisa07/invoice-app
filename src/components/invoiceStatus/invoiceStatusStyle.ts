@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import {getLabelBackgroundColor, getLabelColor, ThemeType} from "../../globalStyle";
+import {getLabelBackgroundColor, getLabelColor} from "../../globalStyle";
 import {StatusEnum} from "../../types/InvoiceEntity";
+import {ThemeType} from "../../types/themeTypes";
 
 export const Status = styled.span<{ theme: ThemeType, status: StatusEnum }>`
   color: ${({theme, status}) => getLabelColor(theme, status)};

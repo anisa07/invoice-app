@@ -18,6 +18,12 @@
         "editButton": {
           "text": "#F7F9FF",
           "background": "#F7F9FF11"
+        },
+        "itemDetailsList": {
+          "background": "#141626"
+        },
+        "link":{
+          "color": "#F8F8FC"
         }
       }
     },
@@ -39,6 +45,12 @@
         "editButton": {
           "text": "#38363F",
           "background": "#38363F11"
+        },
+        "itemDetailsList": {
+          "background": "#C8C7CD"
+        },
+        "link":{
+          "color": "#7D5DFC"
         }
       }
     }

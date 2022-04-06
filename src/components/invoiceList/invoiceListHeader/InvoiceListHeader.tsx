@@ -4,6 +4,7 @@ import {CreateInvoice} from "../../createInvoice/CreateInvoice";
 
 interface InvoiceListHeaderProps extends InvoiceFilterProps {
     invoicesCount: number,
+    onOpenCreateInvoice: () => void
 }
 
 export const InvoiceListHeader = (props: InvoiceListHeaderProps) => {
@@ -18,7 +19,7 @@ export const InvoiceListHeader = (props: InvoiceListHeaderProps) => {
                     statuses={props.statuses}
                     filterValue={props.filterValue}
                     onSelectFilterValue={props.onSelectFilterValue} />
-                <CreateInvoice />
+                <CreateInvoice onClick={props.onOpenCreateInvoice} />
             </InvoiceAction>
         </InvoiceHeaderContainer>
     )

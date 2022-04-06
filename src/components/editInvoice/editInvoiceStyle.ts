@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {ThemeType} from "../../globalStyle";
+import {ThemeType} from "../../types/themeTypes";
 
 export const EditInvoiceButton = styled.button<{ theme: ThemeType }>`
   color: ${({theme}) => theme.colors.editButton.text};
