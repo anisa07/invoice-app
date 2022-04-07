@@ -39,3 +39,7 @@ export const detailListBackground = "rgba(200,199,205,0.1)"
 export const totalPriceBackground = black;
 export const totalPriceColor = "#FFF";
 export const popupContainerBackground = "#00000055"
+export const warnColor = red;
+export const focusColor = violet1;
+export const formSectionText = violet1;
+export const disabledButton = middleGray;

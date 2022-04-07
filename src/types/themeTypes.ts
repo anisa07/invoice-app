@@ -23,5 +23,10 @@ export interface ThemeType {
         "link": {
             "background": string
         },
+        formInput: {
+            background: string,
+            text: string,
+            border: string
+        },
     }
 }

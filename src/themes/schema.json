@@ -24,6 +24,11 @@
         },
         "link":{
           "color": "#F8F8FC"
+        },
+        "formInput": {
+          "text": "#F7F9FF",
+          "background": "#1F203A",
+          "border": "#1F203A"
         }
       }
     },
@@ -51,6 +56,11 @@
         },
         "link":{
           "color": "#7D5DFC"
+        },
+        "formInput": {
+          "text": "#F8F8FCF",
+          "background": "#F8F8FC",
+          "border": "#C8C7CD"
         }
       }
     }

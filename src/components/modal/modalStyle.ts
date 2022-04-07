@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {desktopBreakpoint, mobileBreakpoint, popupContainerBackground, tabletBreakpoint} from "../../themes/styleConst";
+import {mobileBreakpoint, popupContainerBackground, tabletBreakpoint} from "../../themes/styleConst";
 import {ThemeType} from "../../types/themeTypes";
 
 export const ModalContainer = styled.div<{ theme: ThemeType }>`
@@ -27,10 +27,14 @@ export const ModalContainer = styled.div<{ theme: ThemeType }>`
     
     .close {
       position: absolute;
-      font-size: 30px;
-      right: 1rem;
-      top: 1rem;
+      font-size: 24px;
+      font-weight: 500;
+      right: 1.5rem;
+      top: 1.5rem;
       color: ${({theme}) => theme.colors.text};
+      border: 1px solid ${({theme}) => theme.colors.text};
+      padding: 0.20rem 0.5rem;
+      border-radius: 50%;
     }
     
     @media (min-width: ${mobileBreakpoint + 1}px) and (max-width: ${tabletBreakpoint}px) {
@@ -38,10 +42,10 @@ export const ModalContainer = styled.div<{ theme: ThemeType }>`
     }
 
     @media (min-width: ${tabletBreakpoint + 1}px) {
-      left: 25%;
-      right: 25%;
-      top: 25%;
-      bottom: 25%;
+      left: 0;
+      right: 35%;
+      top: 0;
+      bottom: 0;
       margin: auto;
       width: unset;
     }
