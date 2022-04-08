@@ -5,7 +5,7 @@ export interface ValidationResult {
     errorMessage: string,
 }
 
-export type FormValidationFunction = (fieldName: keyof FormData) => (value: string) => ValidationResult;
+export type FormValidationFunction = (fieldName?: keyof FormData) => (value: string) => ValidationResult;
 
 export interface FormDataElement {
     value: string,
@@ -23,11 +23,11 @@ export const toProperCase = (str: string) => {
 }
 
 // TODO separate file
-export const ensureNotEmpty = (fieldName: keyof FormData) => (value: string) => {
+export const ensureNotEmpty = () => (value: string) => {
     if (value.length === 0) {
         return {
             error: true,
-            errorMessage: `${toProperCase(fieldName as string)} is required.`,
+            errorMessage: `Required.`,
         }
     }
 
@@ -51,11 +51,8 @@ export default function useForm(formData: FormData, setter: Dispatch<SetStateAct
     }
 
     const validateForm = () => {
-        const formErrors = Object.entries(formData).reduce((accu, [fieldName, value]) => {
-            const {error} = validateField(fieldName as keyof FormData);
-            return error ? [...accu, error] : [...accu];
-        }, [] as Array<boolean>);
-        setIsValid(!formErrors.length);
+        const formErrors = Object.entries(formData).some(([fieldName]) => validateField(fieldName as keyof FormData).error);
+        setIsValid(!formErrors);
     }
 
     const validateField = (fieldName: keyof FormData) => {
@@ -69,6 +66,7 @@ export default function useForm(formData: FormData, setter: Dispatch<SetStateAct
             validationResult = validation(fieldName)(currentFormData.value);
 
             if (validationResult.error) {
+                setIsValid(false);
                 break;
             }
         }

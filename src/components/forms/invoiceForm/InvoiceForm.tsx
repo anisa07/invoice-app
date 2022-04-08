@@ -16,6 +16,7 @@ export const InvoiceForm = (props: InvoiceFormProps) => {
             validation: [ensureNotEmpty]
         }
     });
+
     const {isValid, onValidate, onChange} = useForm(formData, setFormData);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {

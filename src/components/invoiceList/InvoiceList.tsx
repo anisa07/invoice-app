@@ -4,11 +4,11 @@ import {useContext, useEffect, useState} from "react";
 import {InvoiceEntity, StatusEnum} from "../../types/InvoiceEntity";
 import {InvoiceListHeader} from "./invoiceListHeader/InvoiceListHeader";
 import { InvoiceListStyled } from "./invoiceListStyle";
-import {Context} from "../../context/context";
 import {InvoiceForm} from "../forms/invoiceForm/InvoiceForm";
+import {useAppContext} from "../../context/context";
 
 export const InvoiceList = () => {
-    const {setModalContent, toggleModal} = useContext(Context);
+    const {setModalContent, toggleModal} = useAppContext();
     const [invoiceList, setInvoiceList] = useState<InvoiceEntity[]>([]);
     const [filter, setFilter] = useState<StatusEnum>('' as StatusEnum);
     const filterValues = [ StatusEnum.PAID, StatusEnum.PENDING, StatusEnum.DRAFT ];

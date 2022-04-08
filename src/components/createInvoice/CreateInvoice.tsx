@@ -1,15 +1,14 @@
 import { StyledCreateInvoice } from "./createInvoiceStyle"
 import {tabletBreakpoint} from "../../themes/styleConst";
 import plus from './png/plus.png';
-import {Context} from "../../context/context";
-import {useContext} from "react";
+import {useAppContext} from "../../context/context";
 
 export interface CreateInvoiceProps {
     onClick: () => void;
 }
 
 export const CreateInvoice = (props: CreateInvoiceProps) => {
-    const { windowDimensions } = useContext(Context);
+    const { windowDimensions } = useAppContext();
 
     const createInvoiceText = () => windowDimensions.width <= tabletBreakpoint ? 'New' : 'New Invoice'
 

@@ -1,8 +1,8 @@
 import {StatusEnum} from "../../../types/InvoiceEntity";
-import {ChangeEvent, useContext} from "react";
+import {ChangeEvent} from "react";
 import { InvoiceFilterStyled } from "./invoiceFilterStyle";
 import {tabletBreakpoint} from "../../../themes/styleConst";
-import {Context} from "../../../context/context";
+import {useAppContext} from "../../../context/context";
 
 export interface InvoiceFilterProps {
     statuses: StatusEnum[],
@@ -11,7 +11,7 @@ export interface InvoiceFilterProps {
 }
 
 export const InvoiceFilter = (props: InvoiceFilterProps) => {
-    const { windowDimensions } = useContext(Context);
+    const { windowDimensions } = useAppContext();
 
     const handleSelectFilter = (v: ChangeEvent<HTMLSelectElement>) => {
         props.onSelectFilterValue(v.target.value as StatusEnum)

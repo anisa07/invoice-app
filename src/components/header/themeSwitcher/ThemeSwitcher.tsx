@@ -1,11 +1,10 @@
 import moon from './png/moon.png';
 import sun from './png/sun.png';
 import { StyledThemeSwitcher, ThemeImage } from './themeSwitcherStyle';
-import {useContext} from "react";
-import {Context} from "../../../context/context";
+import {useAppContext} from "../../../context/context";
 
 export const ThemeSwitcher = () => {
-    const { theme, handleChangeTheme } = useContext(Context);
+    const { theme, handleChangeTheme } = useAppContext();
 
     const pickupThemeImage = () => theme?.name === "dark" ? sun : moon;
 

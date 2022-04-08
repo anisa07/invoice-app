@@ -1,17 +1,15 @@
 import {InvoiceDetailsListStyled} from "./invoiceDetailsListStyle"
 import {ItemEntity} from "../../../types/InvoiceEntity";
-import useWindowDimensions from "../../../hooks/useScreenDimensions";
 import {mobileBreakpoint} from "../../../themes/styleConst";
 import {fullPrice} from "../../../helpers/invoiceHelper";
-import {useContext} from "react";
-import {Context} from "../../../context/context";
+import {useAppContext} from "../../../context/context";
 
 interface InvoiceDetailsListProps {
     list: ItemEntity[]
 }
 
 export const InvoiceDetailsList = (props: InvoiceDetailsListProps) => {
-    const { windowDimensions } = useContext(Context);
+    const { windowDimensions } = useAppContext();
 
     const isMobile = () => windowDimensions.width <= mobileBreakpoint;
 

@@ -1,9 +1,8 @@
 import { ModalContainer } from "./modalStyle"
-import {useContext} from "react";
-import {Context} from "../../context/context";
+import {useAppContext} from "../../context/context";
 
 export const Modal = () => {
-    const {toggleModal, modalContent} = useContext(Context);
+    const {toggleModal, modalContent} = useAppContext();
 
     const handleCloseModal = () => {
         toggleModal();
