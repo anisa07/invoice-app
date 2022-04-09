@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import {desktopBreakpoint, focusColor, warnColor} from "../../themes/styleConst";
-import {ThemeType} from "../../types/themeTypes";
+import {desktopBreakpoint, focusColor, warnColor} from "../../../themes/styleConst";
+import {ThemeType} from "../../../types/themeTypes";
 
 export const FormInputContainer = styled.div`
   display: flex;
@@ -33,6 +33,10 @@ export const StyledInput = styled.input<{ theme: ThemeType, error: boolean }>`
   @media(min-width:${desktopBreakpoint}) {
     padding: 10px 20px
   }
+
+  ::-webkit-calendar-picker-indicator {
+    filter: ${({theme}) => theme.name === "dark" ? 'invert(1)' : 'invert(0)'};
+  }
 `;
 
 // export const StyledWarningIcon = styled.img`
@@ -43,7 +47,7 @@ export const StyledInput = styled.input<{ theme: ThemeType, error: boolean }>`
 // `;
 
 export const StyledWarning = styled.p`
-  margin: 0.5rem 0;
+  margin: 0.5rem 0 0;
   color: ${warnColor};
   font-size: 14px;
   height: 10px;

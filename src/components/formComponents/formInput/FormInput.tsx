@@ -3,7 +3,7 @@ import { FormInputContainer, StyledInput, StyledWarning } from "./formInputStyle
 
 export interface FormInputProps {
     placeholder?: string,
-    type: string,
+    type?: string,
     error: boolean,
     errorMessage: string,
     value: string,
@@ -37,7 +37,7 @@ export const FormInput = (props: FormInputProps) => {
         <StyledInput
             error={props.error}
             placeholder={props.placeholder}
-            type={props.type}
+            type={props.type || "text"}
             value={props.value}
             onBlur={handleBlur}
             onChange={handleChange}

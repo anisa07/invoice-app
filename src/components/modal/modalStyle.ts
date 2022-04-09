@@ -14,6 +14,9 @@ export const ModalContainer = styled.div<{ theme: ThemeType }>`
   background-color: ${popupContainerBackground};
 
   .content {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
     padding: 2rem;
     position: absolute;
     background: ${({theme}) => {
@@ -29,8 +32,8 @@ export const ModalContainer = styled.div<{ theme: ThemeType }>`
       position: absolute;
       font-size: 24px;
       font-weight: 500;
-      right: 1.5rem;
-      top: 1.5rem;
+      right: 2rem;
+      top: 2rem;
       color: ${({theme}) => theme.colors.text};
       border: 1px solid ${({theme}) => theme.colors.text};
       padding: 0.20rem 0.5rem;

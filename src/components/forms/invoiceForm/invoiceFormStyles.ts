@@ -1,5 +1,11 @@
 import styled from "styled-components";
-import {createInvoiceBackground, createInvoiceColor, disabledButton, formSectionText} from "../../../themes/styleConst";
+import {
+    createInvoiceBackground,
+    createInvoiceColor,
+    disabledButton,
+    formSectionText,
+    mobileBreakpoint
+} from "../../../themes/styleConst";
 import {ThemeType} from "../../../types/themeTypes";
 
 export const InvoiceFormStyled = styled.form<{ theme: ThemeType }>`
@@ -10,6 +16,37 @@ export const InvoiceFormStyled = styled.form<{ theme: ThemeType }>`
   .text {
     color: ${formSectionText};
     margin: 1rem 0;
+  }
+  
+  .fromInputs {
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 0.5rem;
+
+    div {
+      min-width: 0;
+    }
+    
+    @media(min-width: ${mobileBreakpoint + 1}px) {
+      grid-template-columns: repeat(3, auto);
+    }
+  }
+  
+  .date-payment {
+    width: 100%;
+    display: inline-grid;
+    grid-template-columns: repeat(1, auto);
+    gap: 0.5rem;
+
+    @media(min-width: ${mobileBreakpoint + 1}px) {
+      grid-template-columns: repeat(2, auto);
+    }
+  }
+  
+  .action {
+    display: flex;
+    justify-content: flex-end;
   }
   
   .submit {

@@ -41,3 +41,13 @@ export const convertTimestampDate = (t: number) => {
     const month = getMonthName(d.getMonth());
     return `${date} ${month} ${d.getFullYear()}`;
 }
+
+export const convertDateForDatePicker = (t: number | Date) => {
+    let date = t;
+    if (typeof date === "number") {
+        date = new Date(t);
+    }
+    const day = date.getDate() > 10 ? date.getDate() : '0'+date.getDate();
+    const month = date.getMonth()+1 > 10 ? date.getMonth()+1 : '0'+(date.getMonth()+1);
+    return `${date.getFullYear()}-${month}-${day}`;
+}
