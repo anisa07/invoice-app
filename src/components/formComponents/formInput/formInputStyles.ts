@@ -39,12 +39,22 @@ export const StyledInput = styled.input<{ theme: ThemeType, error: boolean }>`
   }
 `;
 
-// export const StyledWarningIcon = styled.img`
-//   position: absolute;
-//   width: 20px;
-//   top: 10px;
-//   right: 10px;
-// `;
+export const StyleSelect = styled.select<{ theme: ThemeType, error: boolean }>`
+  padding: 11px;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: ${({error, theme}) => error ? warnColor : theme.colors.formInput.border};
+  outline: none;
+  color: ${({error, theme}) => error ? warnColor : theme.colors.formInput.text};
+  background-color: ${({theme}) => theme.colors.formInput.background};
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+
+  &:focus {
+    border-color: ${focusColor};
+  }
+`;
 
 export const StyledWarning = styled.p`
   margin: 0.5rem 0 0;

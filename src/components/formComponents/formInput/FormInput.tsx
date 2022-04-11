@@ -12,15 +12,6 @@ export interface FormInputProps {
     onBlur?: () => void
 }
 
-// export interface StyledInputProps {
-//     placeholder: string,
-//     type: string,
-//     error: boolean,
-//     value: string,
-//     onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-//     onBlur?: () => void
-// }
-
 export const FormInput = (props: FormInputProps) => {
     const handleBlur = () => {
         if (props.onBlur) {

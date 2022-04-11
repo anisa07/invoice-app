@@ -1,8 +1,12 @@
-import useForm, {ensureNotEmpty, FormData} from "../../../hooks/useForm";
-import {FormEvent, useState} from "react";
+import useForm, {ensureNotEmpty, ensureNumber, FormData} from "../../../hooks/useForm";
+import {FormEvent, useEffect, useState} from "react";
 import {InvoiceFormStyled} from "./invoiceFormStyles";
 import {FormInput} from "../../formComponents/formInput/FormInput";
 import {convertDateForDatePicker} from "../../../helpers/invoiceHelper";
+import {FormSelect} from "../../formComponents/formSelect/FormSelect";
+import {FormItemList} from "../../formComponents/formItemList/FormItemList";
+import {ItemEntity} from "../../../types/InvoiceEntity";
+import { v4 as uuidv4 } from 'uuid';
 
 export interface InvoiceFormProps {
     id?: string
@@ -75,10 +79,35 @@ export const InvoiceForm = (props: InvoiceFormProps) => {
             error: false,
             errorMessage: '',
             validation: [ensureNotEmpty]
+        },
+        paymentTerms: {
+            value: '',
+            error: false,
+            errorMessage: '',
+            validation: [ensureNotEmpty]
+        },
+        projectDescription: {
+            value: '',
+            error: false,
+            errorMessage: '',
+            validation: [ensureNotEmpty]
         }
     });
 
     const {isValid, onValidate, onChange} = useForm(formData, setFormData);
+
+    const [items, setItems] = useState<ItemEntity[]>([]);
+    const [itemsListValid, setItemsListValid] = useState(false);
+
+    useEffect(() => {
+        if (items.length === 0) {
+            setItemsListValid(true);
+        } else {
+            const haveError = items.some((item) => !ensureNumber(`${item.price}`)
+                || !ensureNumber(`${item.quantity}`) || item.itemName.length === 0)
+            setItemsListValid(!haveError);
+        }
+    }, [items]);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -87,6 +116,17 @@ export const InvoiceForm = (props: InvoiceFormProps) => {
     const formTitle = props.id ? `Edit #${props.id}` : 'New Invoice';
 
     const formSubmitTitle = props.id ? `Save Changes` : 'Create Invoice';
+
+    const handleAddItems = () => {
+        const id = uuidv4();
+        const newItems = [...items];
+        newItems.push({id, price: 0, itemName: '', quantity: 1});
+        setItems(newItems);
+    }
+
+    const handleChangeItems = (newItems: ItemEntity[]) => {
+        setItems(newItems);
+    }
 
     return (
         <InvoiceFormStyled onSubmit={handleSubmit}>
@@ -176,14 +216,6 @@ export const InvoiceForm = (props: InvoiceFormProps) => {
                     onChange={onChange("billToCountry")}
                     onBlur={onValidate("billToCountry")}
                 />
-                <FormInput
-                    error={formData.billToCountry.error}
-                    errorMessage={formData.billToCountry.errorMessage}
-                    value={formData.billToCountry.value}
-                    label="Country"
-                    onChange={onChange("billToCountry")}
-                    onBlur={onValidate("billToCountry")}
-                />
             </div>
             <div className="date-payment">
                 <FormInput
@@ -195,12 +227,38 @@ export const InvoiceForm = (props: InvoiceFormProps) => {
                     onChange={onChange("invoiceDate")}
                     onBlur={onValidate("invoiceDate")}
                 />
+                <FormSelect
+                    error={formData.paymentTerms.error}
+                    errorMessage={formData.paymentTerms.errorMessage}
+                    value={formData.paymentTerms.value}
+                    label="Payment Terms"
+                    options={[
+                        {label: "Net 30 days", value: "net30"},
+                        {label: "Net 10 days", value: "net10"},
+                        {label: "Net 1 days", value: "net1"}
+                    ]}
+                    onChange={onChange("paymentTerms")}
+                    onBlur={onValidate("paymentTerms")}
+                />
             </div>
+            <FormInput
+                error={formData.projectDescription.error}
+                errorMessage={formData.projectDescription.errorMessage}
+                value={formData.projectDescription.value}
+                label="Project Description"
+                onChange={onChange("projectDescription")}
+                onBlur={onValidate("projectDescription")}
+            />
+            <FormItemList
+                items={items}
+                onAddItems={handleAddItems}
+                onChangeItems={handleChangeItems}
+            />
             <div className="action">
                 <button
                     type="submit"
                     className="submit"
-                    disabled={!isValid}>
+                    disabled={!isValid || !itemsListValid}>
                     {formSubmitTitle}
                 </button>
             </div>

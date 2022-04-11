@@ -22,6 +22,10 @@ export const toProperCase = (str: string) => {
     return str.substring(0, 1).toUpperCase() + str.substring(1, str.length).toLowerCase();
 }
 
+export const ensureNumber = (value: string) => {
+    return !!value.toLowerCase().match(/^[0-9]*$/);
+}
+
 // TODO separate file
 export const ensureNotEmpty = () => (value: string) => {
     if (value.length === 0) {
