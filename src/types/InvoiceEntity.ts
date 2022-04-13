@@ -1,4 +1,3 @@
-
 export interface AddressEntity {
     streetAddress: string,
     city: string,

@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 import {createInvoiceBackground, createInvoiceColor, desktopBreakpoint} from "../../themes/styleConst";
 

@@ -7,7 +7,6 @@ export interface FormSelectProps extends FormInputProps {
 }
 
 export const FormSelect = (props: FormSelectProps) => {
-
     const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
         props.onChange(e.target.value);
     }

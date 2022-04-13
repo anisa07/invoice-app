@@ -1,5 +1,5 @@
 import {InvoiceItem} from "./invoiceListItem/InvoiceItem";
-import {fetchInvoices, filterByStatus} from "../../services/invoiceService";
+import {filterByStatus} from "../../services/invoiceService";
 import {useEffect, useState} from "react";
 import {InvoiceEntity, StatusEnum} from "../../types/InvoiceEntity";
 import {InvoiceListHeader} from "./invoiceListHeader/InvoiceListHeader";
