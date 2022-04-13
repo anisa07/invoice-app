@@ -1,6 +1,6 @@
 import {InvoiceItem} from "./invoiceListItem/InvoiceItem";
-import {fetchInvoices} from "../../services/invoiceService";
-import {useContext, useEffect, useState} from "react";
+import {fetchInvoices, filterByStatus} from "../../services/invoiceService";
+import {useEffect, useState} from "react";
 import {InvoiceEntity, StatusEnum} from "../../types/InvoiceEntity";
 import {InvoiceListHeader} from "./invoiceListHeader/InvoiceListHeader";
 import { InvoiceListStyled } from "./invoiceListStyle";
@@ -13,16 +13,24 @@ export const InvoiceList = () => {
     const [filter, setFilter] = useState<StatusEnum>('' as StatusEnum);
     const filterValues = [ StatusEnum.PAID, StatusEnum.PENDING, StatusEnum.DRAFT ];
 
-    useEffect(() => {
-        fetchInvoices().then(response => {
-            console.log(response)
+    const findByFilter = (v: StatusEnum) => {
+        filterByStatus(v).then(response => {
             setInvoiceList(response);
-        })
+        });
+    }
+
+    useEffect(() => {
+        findByFilter("" as StatusEnum);
     }, [])
 
     const handleOpenCreateInvoiceModal = () => {
         setModalContent(<InvoiceForm />)
         toggleModal();
+    }
+
+    const handleSetFilter = (v: StatusEnum) => {
+        setFilter(v);
+        findByFilter(v);
     }
 
     return (
@@ -32,7 +40,7 @@ export const InvoiceList = () => {
                 statuses={filterValues}
                 invoicesCount={invoiceList.length}
                 onOpenCreateInvoice={handleOpenCreateInvoiceModal}
-                onSelectFilterValue={setFilter} />
+                onSelectFilterValue={handleSetFilter} />
             {invoiceList.map(item =>
                 <InvoiceItem item={item} key={item.id} />
             )}

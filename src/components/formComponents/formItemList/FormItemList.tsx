@@ -1,6 +1,7 @@
 import {StyledFormItemList} from "./FormItemListStyle"
 import {ItemEntity} from "../../../types/InvoiceEntity";
 import {FormItem} from "../formItem/FormItem";
+import {SyntheticEvent} from "react";
 
 interface FormItemListProps {
     items: ItemEntity[];
@@ -28,6 +29,11 @@ export const FormItemList = (props: FormItemListProps) => {
         }
     }
 
+    const handleAddItem = (e: SyntheticEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        props.onAddItems();
+    }
+
     const displayList = () => props.items.length > 0;
 
     return <StyledFormItemList>
@@ -46,6 +52,6 @@ export const FormItemList = (props: FormItemListProps) => {
                     onDeleteItem={handleDeleteItem}
                     onChangeItemEntity={handleChangeItem(item.id)}
                 />)}
-        <button className="addItem" onClick={props.onAddItems}>+ Add New Item</button>
+        <button className="addItem" onClick={handleAddItem}>+ Add New Item</button>
     </StyledFormItemList>
 }

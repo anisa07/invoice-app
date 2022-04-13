@@ -45,6 +45,7 @@ export const InvoiceFormStyled = styled.form<{ theme: ThemeType }>`
   }
   
   .action {
+    margin-top: 1rem;
     display: flex;
     justify-content: flex-end;
   }

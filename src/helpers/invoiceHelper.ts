@@ -51,3 +51,14 @@ export const convertDateForDatePicker = (t: number | Date) => {
     const month = date.getMonth()+1 > 10 ? date.getMonth()+1 : '0'+(date.getMonth()+1);
     return `${date.getFullYear()}-${month}-${day}`;
 }
+
+export function makeTicketNum() {
+    let result           = '';
+    const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < 6; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() *
+            charactersLength));
+    }
+    return result;
+}

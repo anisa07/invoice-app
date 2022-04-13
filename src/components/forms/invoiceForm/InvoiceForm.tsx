@@ -5,14 +5,17 @@ import {FormInput} from "../../formComponents/formInput/FormInput";
 import {convertDateForDatePicker} from "../../../helpers/invoiceHelper";
 import {FormSelect} from "../../formComponents/formSelect/FormSelect";
 import {FormItemList} from "../../formComponents/formItemList/FormItemList";
-import {ItemEntity} from "../../../types/InvoiceEntity";
-import { v4 as uuidv4 } from 'uuid';
+import {InvoiceEntity, ItemEntity, StatusEnum} from "../../../types/InvoiceEntity";
+import {v4 as uuidv4} from 'uuid';
+import {fetchInvoiceById, saveInvoice} from "../../../services/invoiceService";
+import {useAppContext} from "../../../context/context";
 
 export interface InvoiceFormProps {
     id?: string
 }
 
 export const InvoiceForm = (props: InvoiceFormProps) => {
+    const {toggleModal} = useAppContext();
     const [formData, setFormData] = useState<FormData>({
         billFromStreetAddress: {
             value: '',
@@ -93,11 +96,11 @@ export const InvoiceForm = (props: InvoiceFormProps) => {
             validation: [ensureNotEmpty]
         }
     });
-
     const {isValid, onValidate, onChange} = useForm(formData, setFormData);
-
+    const [invoice, setInvoice] = useState<InvoiceEntity>();
     const [items, setItems] = useState<ItemEntity[]>([]);
     const [itemsListValid, setItemsListValid] = useState(false);
+    const [editMode] = useState(!!props.id);
 
     useEffect(() => {
         if (items.length === 0) {
@@ -109,13 +112,110 @@ export const InvoiceForm = (props: InvoiceFormProps) => {
         }
     }, [items]);
 
+    useEffect(() => {
+        if (props.id) {
+            fetchInvoiceById(props.id).then(response => {
+                const editInvoice: InvoiceEntity = response;
+                setInvoice(response);
+                setFormData({
+                    billFromStreetAddress: {
+                        ...formData.billFromStreetAddress,
+                        value: editInvoice.billFrom.streetAddress
+                    },
+                    billFromCity: {
+                        ...formData.billFromCity,
+                        value: editInvoice.billFrom.city
+                    },
+                    billFromPostCode: {
+                        ...formData.billFromPostCode,
+                        value: editInvoice.billFrom.postCode
+                    },
+                    billFromCountry: {
+                        ...formData.billFromCountry,
+                        value: editInvoice.billFrom.country
+                    },
+                    billToClientName: {
+                        ...formData.billToClientName,
+                        value: editInvoice.billTo.clientName
+                    },
+                    billToClientEmail: {
+                        ...formData.billToClientEmail,
+                        value: editInvoice.billTo.clientEmail
+                    },
+                    billToStreetAddress: {
+                        ...formData.billToStreetAddress,
+                        value: editInvoice.billTo.address.streetAddress,
+                    },
+                    billToCity: {
+                        ...formData.billToCity,
+                        value: editInvoice.billTo.address.city,
+                    },
+                    billToPostCode: {
+                        ...formData.billToPostCode,
+                        value: editInvoice.billTo.address.postCode,
+                    },
+                    billToCountry: {
+                        ...formData.billToCountry,
+                        value: editInvoice.billTo.address.country,
+                    },
+                    invoiceDate: {
+                        ...formData.invoiceDate,
+                        value: convertDateForDatePicker(editInvoice.invoiceDate)
+                    },
+                    paymentTerms: {
+                        ...formData.invoiceDate,
+                        value: editInvoice.paymentTerms
+                    },
+                    projectDescription: {
+                        ...formData.projectDescription,
+                        value: editInvoice.projectDescription
+                    }
+                });
+                setItems(response.itemList);
+            })
+        }
+    }, [])
+
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        const newInvoice: InvoiceEntity = {
+            id: props.id || uuidv4(),
+            ticketNumber: invoice?.ticketNumber || "",
+            billFrom: {
+                streetAddress: formData.billFromStreetAddress.value,
+                country: formData.billFromCountry.value,
+                city: formData.billFromCity.value,
+                postCode: formData.billFromPostCode.value,
+            },
+            billTo: {
+                clientEmail: formData.billToClientEmail.value,
+                clientName: formData.billToClientName.value,
+                address: {
+                    streetAddress: formData.billToStreetAddress.value,
+                    country: formData.billToCountry.value,
+                    city: formData.billToCity.value,
+                    postCode: formData.billToPostCode.value
+                }
+            },
+            invoiceDate: (new Date(formData.invoiceDate.value)).getTime(),
+            paymentTerms: formData.paymentTerms.value,
+            projectDescription: formData.projectDescription.value,
+            itemList: items,
+            status: invoice ? invoice.status : StatusEnum.DRAFT
+        };
+
+        saveInvoice(newInvoice, editMode)
+            .then(() => {
+                toggleModal();
+                // TODO need refresh list after adding new item
+                document.location.reload();
+            });
     }
 
-    const formTitle = props.id ? `Edit #${props.id}` : 'New Invoice';
+    const formTitle = editMode ? `Edit #${invoice?.ticketNumber}` : 'New Invoice';
 
-    const formSubmitTitle = props.id ? `Save Changes` : 'Create Invoice';
+    const formSubmitTitle = editMode ? `Save Changes` : 'Create Invoice';
 
     const handleAddItems = () => {
         const id = uuidv4();
@@ -254,6 +354,7 @@ export const InvoiceForm = (props: InvoiceFormProps) => {
                 onAddItems={handleAddItems}
                 onChangeItems={handleChangeItems}
             />
+
             <div className="action">
                 <button
                     type="submit"

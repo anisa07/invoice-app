@@ -4,7 +4,8 @@ import {tabletBreakpoint} from "../../themes/styleConst";
 import {useAppContext} from "../../context/context";
 
 interface MarkButtonProps {
-    markStatus: StatusEnum
+    markStatus: StatusEnum,
+    onChangeStatus: () => void
 }
 
 export const MarkInvoice = (props: MarkButtonProps) => {
@@ -12,7 +13,7 @@ export const MarkInvoice = (props: MarkButtonProps) => {
 
     const markInvoiceText = () => windowDimensions.width <= tabletBreakpoint ? props.markStatus : `Mark as ${props.markStatus}`
 
-    return <MarkButtonStyled>
+    return <MarkButtonStyled onClick={props.onChangeStatus}>
         {markInvoiceText()}
     </MarkButtonStyled>
 }

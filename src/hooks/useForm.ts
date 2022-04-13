@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction, useState} from "react";
+import {Dispatch, SetStateAction, useEffect, useMemo, useState} from "react";
 
 export interface ValidationResult {
     error: boolean,
@@ -44,30 +44,34 @@ export const ensureNotEmpty = () => (value: string) => {
 export default function useForm(formData: FormData, setter: Dispatch<SetStateAction<FormData>>) {
     const [isValid, setIsValid] = useState(false);
 
-    const onChange = (fieldName: keyof FormData) => (value: string) => {
+    const onChange = (fieldName: string) => (value: string) => {
+        const validationResult = validateField(fieldName, value);
+
         setter({
             ...formData,
-            [fieldName] : {
+            [fieldName]: {
                 ...formData[fieldName],
-                value
+                value,
+                error: validationResult.error,
+                errorMessage: validationResult.errorMessage
             }
-        })
-    }
+        });
+    };
 
     const validateForm = () => {
-        const formErrors = Object.entries(formData).some(([fieldName]) => validateField(fieldName as keyof FormData).error);
-        setIsValid(!formErrors);
-    }
+        return !Object.entries(formData).some(([fieldName]) => validateField(fieldName).error)
+    };
 
-    const validateField = (fieldName: keyof FormData) => {
+    const validateField = (fieldName: string, value?: string) => {
         const currentFormData = formData[fieldName];
+        const valueToCheck = typeof value === 'string' ? value : currentFormData.value;
         const validations = formData[fieldName].validation;
         let validationResult = {
             error: false,
-            errorMessage: '',
+            errorMessage: ''
         };
         for (const validation of validations) {
-            validationResult = validation(fieldName)(currentFormData.value);
+            validationResult = validation(fieldName)(valueToCheck);
 
             if (validationResult.error) {
                 setIsValid(false);
@@ -75,9 +79,9 @@ export default function useForm(formData: FormData, setter: Dispatch<SetStateAct
             }
         }
         return validationResult;
-    }
+    };
 
-    const validate = (fieldName: keyof FormData) => {
+    const validate = (fieldName: string) => {
         const validationResult = validateField(fieldName);
 
         setter({
@@ -85,20 +89,33 @@ export default function useForm(formData: FormData, setter: Dispatch<SetStateAct
             [fieldName]: {
                 ...formData[fieldName],
                 error: validationResult.error,
-                errorMessage: validationResult.errorMessage,
+                errorMessage: validationResult.errorMessage
             }
         });
 
         return validationResult.error;
-    }
+    };
 
-    const onValidate = (fieldName: keyof FormData) => () => {
-        const validationFieldResult = validate(fieldName);
+    const onValidate = (fieldName: string) => () => {
+        validate(fieldName);
+    };
 
-        if (!validationFieldResult) {
-            validateForm();
-        }
-    }
+    const clearForm = () => {
+        const formCopy = { ...formData };
+        Object.keys(formCopy).forEach((item) => {
+            formCopy[item].value = '';
+            formCopy[item].error = false;
+            formCopy[item].errorMessage = '';
+        });
+        setter(formCopy);
+    };
 
-    return {isValid, onChange, onValidate}
+    const formValid = useMemo(() => validateForm(), [formData]);
+
+    useEffect(() => {
+        formValid !== isValid && setIsValid(formValid);
+    }, [formValid])
+
+
+    return { isValid, onChange, onValidate, clearForm };
 }

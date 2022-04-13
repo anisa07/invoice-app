@@ -10,6 +10,9 @@ import useWindowDimensions from "../../../hooks/useScreenDimensions";
 export interface InvoiceDetailsHeaderProps {
     status: StatusEnum;
     markStatus?: StatusEnum;
+    onDeleteInvoice: () => void
+    onEditInvoice: () => void
+    onChangeStatus: () => void
 }
 
 export const InvoiceDetailsHeader = (props: InvoiceDetailsHeaderProps) => {
@@ -17,15 +20,17 @@ export const InvoiceDetailsHeader = (props: InvoiceDetailsHeaderProps) => {
 
     const isMobile = () => windowDimensions.width <= mobileBreakpoint;
 
+    const enableEdit = () => props.status !== StatusEnum.PAID;
+
     return (
         <InvoiceDetailsHeaderStyled>
             <div>
                 Status <InvoiceStatus status={props.status}/>
             </div>
             {!isMobile() && <div/>}
-            <EditInvoice/>
-            <DeleteInvoice/>
-            {props.markStatus && <MarkInvoice markStatus={props.markStatus}/>}
+            {enableEdit() && <EditInvoice onEditInvoice={props.onEditInvoice}/>}
+            <DeleteInvoice onDeleteInvoice={props.onDeleteInvoice}/>
+            {props.markStatus && <MarkInvoice markStatus={props.markStatus} onChangeStatus={props.onChangeStatus}/>}
         </InvoiceDetailsHeaderStyled>
     )
 }
