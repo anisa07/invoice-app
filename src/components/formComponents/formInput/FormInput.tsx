@@ -8,29 +8,23 @@ export interface FormInputProps {
     errorMessage: string,
     value: string,
     label: string,
-    onChange: (v: string) => void,
-    onBlur?: () => void
+    name: string,
+    onChange: (v: ChangeEvent) => void,
 }
 
 export const FormInput = (props: FormInputProps) => {
-    const handleBlur = () => {
-        if (props.onBlur) {
-            props.onBlur();
-        }
-    }
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        props.onChange(e.target?.value || '');
+    const handleChange = (e: ChangeEvent) => {
+        props.onChange(e);
     }
 
     return <FormInputContainer>
         <span className="label">{props.label}</span>
         <StyledInput
+            name={props.name}
             error={props.error}
             placeholder={props.placeholder}
             type={props.type || "text"}
             value={props.value}
-            onBlur={handleBlur}
             onChange={handleChange}
         />
         <StyledWarning>

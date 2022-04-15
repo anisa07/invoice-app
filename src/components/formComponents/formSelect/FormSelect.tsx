@@ -7,13 +7,13 @@ export interface FormSelectProps extends FormInputProps {
 }
 
 export const FormSelect = (props: FormSelectProps) => {
-    const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        props.onChange(e.target.value);
+    const handleChange = (e: ChangeEvent) => {
+        props.onChange(e);
     }
 
     return <FormInputContainer>
         <span className="label">{props.label}</span>
-        <StyleSelect value={props.value} onChange={handleChange} error={props.error}>
+        <StyleSelect name={props.name} value={props.value} onChange={handleChange} error={props.error}>
             <option disabled value=""> -- select an option -- </option>
             {props.options.map(o => (
                 <option key={o.value}>{o.label}</option>
