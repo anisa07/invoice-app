@@ -1,11 +1,11 @@
-import {Dispatch, SetStateAction, useEffect, useMemo, useState} from "react";
+import {useCallback, useState} from "react";
 
 export interface ValidationResult {
     error: boolean,
     errorMessage: string,
 }
 
-export type FormValidationFunction = (fieldName?: keyof FormData) => (value: string) => ValidationResult;
+export type FormValidationFunction = (v: string) => ValidationResult;
 
 export interface FormDataElement {
     value: string,
@@ -27,7 +27,7 @@ export const ensureNumber = (value: string) => {
 }
 
 // TODO separate file
-export const ensureNotEmpty = () => (value: string) => {
+export const ensureNotEmpty = (value: string) => {
     if (value.length === 0) {
         return {
             error: true,
@@ -41,81 +41,42 @@ export const ensureNotEmpty = () => (value: string) => {
     }
 };
 
-export default function useForm(formData: FormData, setter: Dispatch<SetStateAction<FormData>>) {
-    const [isValid, setIsValid] = useState(false);
+export default function useForm(formData: FormData) {
+    const [form, setForm] = useState(formData);
 
-    const onChange = (fieldName: string) => (value: string) => {
-        const validationResult = validateField(fieldName, value);
-
-        setter({
-            ...formData,
-            [fieldName]: {
-                ...formData[fieldName],
-                value,
-                error: validationResult.error,
-                errorMessage: validationResult.errorMessage
+    const validateField = useCallback(
+        (inputField) => {
+            for (const validate of inputField.validation) {
+                const validationResult = validate(inputField.value);
+                if (validationResult.error) {
+                    return validationResult;
+                }
             }
-        });
-    };
-
-    const validateForm = () => {
-        return !Object.entries(formData).some(([fieldName]) => validateField(fieldName).error)
-    };
-
-    const validateField = (fieldName: string, value?: string) => {
-        const currentFormData = formData[fieldName];
-        const valueToCheck = typeof value === 'string' ? value : currentFormData.value;
-        const validations = formData[fieldName].validation;
-        let validationResult = {
-            error: false,
-            errorMessage: ''
-        };
-        for (const validation of validations) {
-            validationResult = validation(fieldName)(valueToCheck);
-
-            if (validationResult.error) {
-                setIsValid(false);
-                break;
+            return {
+                error: false,
+                errorMessage: '',
             }
-        }
-        return validationResult;
-    };
+        },
+        [form]
+    );
 
-    const validate = (fieldName: string) => {
-        const validationResult = validateField(fieldName);
+    const onChange = useCallback(
+        (event) => {
+            const {name, value} = event.target;
+            const inputObj = {...form[name]};
+            inputObj.value = value;
+            const isValidInput = validateField(inputObj);
+            inputObj.error = isValidInput.error;
+            inputObj.errorMessage = isValidInput.errorMessage;
 
-        setter({
-            ...formData,
-            [fieldName]: {
-                ...formData[fieldName],
-                error: validationResult.error,
-                errorMessage: validationResult.errorMessage
-            }
-        });
+            setForm({...form, [name]: inputObj});
+        },
+        [form, validateField]
+    );
 
-        return validationResult.error;
-    };
+    const isFormValid = useCallback(() => {
+        return !Object.entries(form).some(([_, field]) =>validateField(field).error);
+    }, [form]);
 
-    const onValidate = (fieldName: string) => () => {
-        validate(fieldName);
-    };
-
-    const clearForm = () => {
-        const formCopy = { ...formData };
-        Object.keys(formCopy).forEach((item) => {
-            formCopy[item].value = '';
-            formCopy[item].error = false;
-            formCopy[item].errorMessage = '';
-        });
-        setter(formCopy);
-    };
-
-    const formValid = useMemo(() => validateForm(), [formData]);
-
-    useEffect(() => {
-        formValid !== isValid && setIsValid(formValid);
-    }, [formValid])
-
-
-    return { isValid, onChange, onValidate, clearForm };
+    return {onChange, isFormValid, form};
 }

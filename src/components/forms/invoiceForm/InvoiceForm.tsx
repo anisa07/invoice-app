@@ -96,7 +96,7 @@ export const InvoiceForm = (props: InvoiceFormProps) => {
             validation: [ensureNotEmpty]
         }
     });
-    const {isValid, onValidate, onChange} = useForm(formData, setFormData);
+    const {onChange, isFormValid, form} = useForm(formData);
     const [invoice, setInvoice] = useState<InvoiceEntity>();
     const [items, setItems] = useState<ItemEntity[]>([]);
     const [itemsListValid, setItemsListValid] = useState(false);
@@ -233,121 +233,121 @@ export const InvoiceForm = (props: InvoiceFormProps) => {
             <h3>{formTitle}</h3>
             <p className="text">Bill From</p>
             <FormInput
-                error={formData.billFromStreetAddress.error}
-                errorMessage={formData.billFromStreetAddress.errorMessage}
-                value={formData.billFromStreetAddress.value}
+                name="billFromStreetAddress"
+                error={form.billFromStreetAddress.error}
+                errorMessage={form.billFromStreetAddress.errorMessage}
+                value={form.billFromStreetAddress.value}
                 label="Street Address"
-                onChange={onChange("billFromStreetAddress")}
-                onBlur={onValidate("billFromStreetAddress")}
+                onChange={onChange}
             />
             <div className="fromInputs">
                 <FormInput
-                    error={formData.billFromCity.error}
-                    errorMessage={formData.billFromCity.errorMessage}
-                    value={formData.billFromCity.value}
+                    error={form.billFromCity.error}
+                    errorMessage={form.billFromCity.errorMessage}
+                    value={form.billFromCity.value}
                     label="City"
-                    onChange={onChange("billFromCity")}
-                    onBlur={onValidate("billFromCity")}
+                    name="billFromCity"
+                    onChange={onChange}
                 />
                 <FormInput
-                    error={formData.billFromPostCode.error}
-                    errorMessage={formData.billFromPostCode.errorMessage}
-                    value={formData.billFromPostCode.value}
+                    error={form.billFromPostCode.error}
+                    errorMessage={form.billFromPostCode.errorMessage}
+                    value={form.billFromPostCode.value}
                     label="Post Code"
-                    onChange={onChange("billFromPostCode")}
-                    onBlur={onValidate("billFromPostCode")}
+                    name="billFromPostCode"
+                    onChange={onChange}
                 />
                 <FormInput
-                    error={formData.billFromCountry.error}
-                    errorMessage={formData.billFromCountry.errorMessage}
-                    value={formData.billFromCountry.value}
+                    error={form.billFromCountry.error}
+                    errorMessage={form.billFromCountry.errorMessage}
+                    value={form.billFromCountry.value}
                     label="Country"
-                    onChange={onChange("billFromCountry")}
-                    onBlur={onValidate("billFromCountry")}
+                    name="billFromCountry"
+                    onChange={onChange}
                 />
             </div>
             <p className="text">Bill To</p>
             <FormInput
-                error={formData.billToClientName.error}
-                errorMessage={formData.billToClientName.errorMessage}
-                value={formData.billToClientName.value}
+                error={form.billToClientName.error}
+                errorMessage={form.billToClientName.errorMessage}
+                value={form.billToClientName.value}
                 label="Client's Name"
-                onChange={onChange("billToClientName")}
-                onBlur={onValidate("billToClientName")}
+                name="billToClientName"
+                onChange={onChange}
             />
             <FormInput
-                error={formData.billToClientEmail.error}
-                errorMessage={formData.billToClientEmail.errorMessage}
-                value={formData.billToClientEmail.value}
+                error={form.billToClientEmail.error}
+                errorMessage={form.billToClientEmail.errorMessage}
+                value={form.billToClientEmail.value}
                 label="Client's Email"
-                onChange={onChange("billToClientEmail")}
-                onBlur={onValidate("billToClientEmail")}
+                name="billToClientEmail"
+                onChange={onChange}
             />
             <FormInput
-                error={formData.billToStreetAddress.error}
-                errorMessage={formData.billToStreetAddress.errorMessage}
-                value={formData.billToStreetAddress.value}
+                error={form.billToStreetAddress.error}
+                errorMessage={form.billToStreetAddress.errorMessage}
+                value={form.billToStreetAddress.value}
                 label="Street Address"
-                onChange={onChange("billToStreetAddress")}
-                onBlur={onValidate("billToStreetAddress")}
+                name="billToStreetAddress"
+                onChange={onChange}
             />
             <div className="fromInputs">
                 <FormInput
-                    error={formData.billToCity.error}
-                    errorMessage={formData.billToCity.errorMessage}
-                    value={formData.billToCity.value}
+                    error={form.billToCity.error}
+                    errorMessage={form.billToCity.errorMessage}
+                    value={form.billToCity.value}
                     label="City"
-                    onChange={onChange("billToCity")}
-                    onBlur={onValidate("billToCity")}
+                    name="billToCity"
+                    onChange={onChange}
                 />
                 <FormInput
-                    error={formData.billToPostCode.error}
-                    errorMessage={formData.billToPostCode.errorMessage}
-                    value={formData.billToPostCode.value}
+                    error={form.billToPostCode.error}
+                    errorMessage={form.billToPostCode.errorMessage}
+                    value={form.billToPostCode.value}
                     label="Post Code"
-                    onChange={onChange("billToPostCode")}
-                    onBlur={onValidate("billToPostCode")}
+                    name="billToPostCode"
+                    onChange={onChange}
                 />
                 <FormInput
-                    error={formData.billToCountry.error}
-                    errorMessage={formData.billToCountry.errorMessage}
-                    value={formData.billToCountry.value}
+                    error={form.billToCountry.error}
+                    errorMessage={form.billToCountry.errorMessage}
+                    value={form.billToCountry.value}
                     label="Country"
-                    onChange={onChange("billToCountry")}
-                    onBlur={onValidate("billToCountry")}
+                    name="billToCountry"
+                    onChange={onChange}
                 />
             </div>
             <div className="date-payment">
                 <FormInput
                     type='date'
-                    error={formData.invoiceDate.error}
-                    errorMessage={formData.invoiceDate.errorMessage}
-                    value={formData.invoiceDate.value}
+                    error={form.invoiceDate.error}
+                    errorMessage={form.invoiceDate.errorMessage}
+                    value={form.invoiceDate.value}
                     label="Invoice Date"
-                    onChange={onChange("invoiceDate")}
-                    onBlur={onValidate("invoiceDate")}
+                    name="invoiceDate"
+                    onChange={onChange}
                 />
                 <FormSelect
-                    error={formData.paymentTerms.error}
-                    errorMessage={formData.paymentTerms.errorMessage}
-                    value={formData.paymentTerms.value}
+                    error={form.paymentTerms.error}
+                    errorMessage={form.paymentTerms.errorMessage}
+                    value={form.paymentTerms.value}
                     label="Payment Terms"
                     options={[
                         {label: "Net 30 days", value: "net30"},
                         {label: "Net 10 days", value: "net10"},
                         {label: "Net 1 days", value: "net1"}
                     ]}
-                    onChange={onChange("paymentTerms")}
-                    onBlur={onValidate("paymentTerms")}
+                    name="paymentTerms"
+                    onChange={onChange}
                 />
             </div>
             <FormInput
-                error={formData.projectDescription.error}
-                errorMessage={formData.projectDescription.errorMessage}
-                value={formData.projectDescription.value}
+                error={form.projectDescription.error}
+                errorMessage={form.projectDescription.errorMessage}
+                value={form.projectDescription.value}
                 label="Project Description"
-                onChange={onChange("projectDescription")}
-                onBlur={onValidate("projectDescription")}
+                name="projectDescription"
+                onChange={onChange}
             />
             <FormItemList
                 items={items}
@@ -359,7 +359,7 @@ export const InvoiceForm = (props: InvoiceFormProps) => {
                 <button
                     type="submit"
                     className="submit"
-                    disabled={!isValid || !itemsListValid}>
+                    disabled={!isFormValid() || !itemsListValid}>
                     {formSubmitTitle}
                 </button>
             </div>
